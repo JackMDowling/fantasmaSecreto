@@ -1,3 +1,10 @@
+/*TODO
+Finish Upvotes
+Style
+Add Reply
+Add timestamp
+*/
+
 $(document).ready(() => {
   // Global Variables
   let index = Math.floor(Math.random() * 4);
