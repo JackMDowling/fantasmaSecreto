@@ -1,4 +1,6 @@
 $(document).ready(() => {
+  const users = require("./userMap");
+
   const getMessages = async () => {
     return $.ajax({
       url: "http://localhost:3000/feed/",
