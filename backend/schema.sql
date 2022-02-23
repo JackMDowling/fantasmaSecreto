@@ -9,6 +9,6 @@ CREATE TABLE messages(
     username TEXT(40) NOT NULL,
     text TEXT(141) NOT NULL,
     upvotes INTEGER DEFAULT 0,
+    img TEXT(400) NOT NULL,
     time_posted TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
-)
-
+);
