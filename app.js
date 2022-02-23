@@ -4,7 +4,7 @@ $(document).ready(() => {
   let username = users[index][0];
   let img = users[index][1];
   // Function Definitions
-  const getMessages = async () => {
+  getMessages = async function () {
     return $.ajax({
       url: "http://localhost:3000/feed/",
       crossDomain: true,
@@ -24,6 +24,12 @@ $(document).ready(() => {
     username = users[index][0];
     img = users[index][1];
     let text = document.getElementById("post_field").value;
+    if (text.length === 0) {
+      alert("Please Type a Message!");
+    }
+    if (text.length > 141) {
+      alert("There's a 141 Character Limit");
+    }
     // Structure data object for post request
     let obj = {
       username: username,
@@ -42,6 +48,10 @@ $(document).ready(() => {
         console.log(err);
       },
     });
+  };
+
+  upVote = function () {
+    console.log("upvote submitted");
   };
 
   // Declaring App and Title
@@ -80,8 +90,10 @@ $(document).ready(() => {
       $userIMG.appendTo($message);
       const $text = $(`<div id=messageText>${element.text}</div>`);
       $text.appendTo($message);
-      const $upvote = $(`<div class=upvote>${element.upvotes}</div>`);
+      const $upvote = $(`<div id=upvote onClick=upVote>∆ Upvote</div>`);
       $upvote.appendTo($message);
+      const $upvoteCount = $(`<div class=upvoteCount>${element.upvotes}</div>`);
+      $upvoteCount.appendTo($message);
       const $reply = $(`<div class=reply></div>`);
       $reply.appendTo($post);
     }
