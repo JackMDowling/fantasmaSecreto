@@ -1,10 +1,14 @@
 $(document).ready(() => {
-  const users = require("./userMap");
-
+  // Global Variables
+  let index = Math.floor(Math.random() * 4);
+  let username = users[index][0];
+  let img = users[index][1];
+  // Function Definitions
   const getMessages = async () => {
     return $.ajax({
       url: "http://localhost:3000/feed/",
       crossDomain: true,
+      method: "GET",
       success: function (response) {
         console.log(response);
       },
@@ -14,6 +18,33 @@ $(document).ready(() => {
     });
   };
 
+  postComment = function () {
+    // Reset user to a new random one
+    index = Math.floor(Math.random() * 4);
+    username = users[index][0];
+    img = users[index][1];
+    let text = document.getElementById("post_field").value;
+    // Structure data object for post request
+    let obj = {
+      username: username,
+      text: text,
+      img: img,
+    };
+    $.ajax({
+      url: "http://localhost:3000/submit/",
+      method: "POST",
+      crossDomain: true,
+      data: obj,
+      success: (res) => {
+        console.log(res);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  };
+
+  // Declaring App and Title
   const $app = $("#app");
   $app.html("");
   const $title = $("<h2>Discussion</h2>");
@@ -22,13 +53,13 @@ $(document).ready(() => {
   // Comment Post Section
   const $post = $("<div id=post></div>");
   $post.appendTo($app);
-  const $currentUser = $("<div>img</div>");
+  const $currentUser = $(`<img class=profile src=${img} width=50 height=50>`);
   $currentUser.appendTo($post);
   const $input = $(
     "<input type=text id=post_field placeholder='What Are Your Thoughts?' width='70%'></input>"
   );
   $input.appendTo($post);
-  const $comment = $("<button onClick=postComment>Comment</button>");
+  const $comment = $(`<button onClick=postComment()>Comment</button>`);
   $comment.appendTo($post);
 
   const $discussion = $("<div id=discussion><hr></hr></div>");
@@ -58,3 +89,24 @@ $(document).ready(() => {
 
   updateFeed();
 });
+
+// Storing usernames and urls to randomize on post
+const users = [
+  [
+    "Shoeless Joe",
+    "https://deadline.com/wp-content/uploads/2019/06/fieldofdreamsliotta.jpg",
+  ],
+  [
+    "Blinky",
+    "https://cdn.imgbin.com/21/0/10/imgbin-ms-pac-man-pac-man-world-3-ghosts-packman-5ypZhN0Pp6NfnqcYa7BjJ9RJz.jpg",
+  ],
+  ["Yoda", "https://pbs.twimg.com/media/DYL3NBVW4AAH8cR.jpg"],
+  [
+    "Moaning Myrtle",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPSuFQPdBIL-Y_Chdil20jGyHYg3ez74Z3dxFUdTLC5aQUl-pOqcZaXrBH_NYl80Za0iw&usqp=CAU",
+  ],
+  [
+    "Samara",
+    "https://e00-marca.uecdn.es/assets/multimedia/imagenes/2019/10/07/15704611556564.png",
+  ],
+];
