@@ -12,6 +12,7 @@ $(document).ready(() => {
   let index = Math.floor(Math.random() * 4);
   let username = users[index][0];
   let img = users[index][1];
+
   // Function Definitions
   getMessages = async function () {
     return $.ajax({
@@ -62,6 +63,20 @@ $(document).ready(() => {
   };
 
   upVote = function () {
+    let id = event.target.id;
+    console.log(id);
+    $.ajax({
+      url: "http://localhost:3000/upvote/",
+      method: "PUT",
+      crossDomain: true,
+      data: id,
+      succes: (res) => {
+        console.log(res);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
     console.log("upvote submitted");
   };
 
@@ -85,13 +100,15 @@ $(document).ready(() => {
 
   const $discussion = $("<div id=discussion><hr></hr></div>");
   $discussion.appendTo($app);
+
   // Feed Section
   const updateFeed = async () => {
     $discussion.empty();
+
     let data = await getMessages();
-    console.log(data);
     for (element of data) {
       let src = element.img;
+      let id = element.id;
       const $message = $(`<div id=message></div>`);
       $message.appendTo($discussion);
       const $user = $(`<div class=user>${element.username}</div>`);
@@ -102,8 +119,11 @@ $(document).ready(() => {
       $userIMG.appendTo($message);
       const $text = $(`<div id=messageText>${element.text}</div>`);
       $text.appendTo($message);
-      const $upvote = $(`<div id=upvote onClick=upVote>∆ Upvote</div>`);
+      const $upvote = $(
+        `<div class=upvote id=${id} onClick=upVote()>∆ Upvote</div>`
+      );
       $upvote.appendTo($message);
+
       const $upvoteCount = $(`<div class=upvoteCount>${element.upvotes}</div>`);
       $upvoteCount.appendTo($message);
       const $reply = $(`<div class=reply></div>`);
