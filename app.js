@@ -3,6 +3,8 @@ Finish Upvotes
 Style
 Add Reply
 Add timestamp
+
+BUG! The user posting != the user that ends up in the db, looks like maybe it's just not updating the user when it is randomized
 */
 
 $(document).ready(() => {
@@ -27,9 +29,6 @@ $(document).ready(() => {
 
   postComment = function () {
     // Reset user to a new random one
-    index = Math.floor(Math.random() * 4);
-    username = users[index][0];
-    img = users[index][1];
     let text = document.getElementById("post_field").value;
     if (text.length === 0) {
       alert("Please Type a Message!");
@@ -55,6 +54,11 @@ $(document).ready(() => {
         console.log(err);
       },
     });
+    index = Math.floor(Math.random() * 4);
+    username = users[index][0];
+    img = users[index][1];
+    $(".profile").attr("src", img);
+    updateFeed();
   };
 
   upVote = function () {
@@ -83,6 +87,7 @@ $(document).ready(() => {
   $discussion.appendTo($app);
   // Feed Section
   const updateFeed = async () => {
+    $discussion.empty();
     let data = await getMessages();
     console.log(data);
     for (element of data) {
