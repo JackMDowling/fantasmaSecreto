@@ -11,10 +11,50 @@
   height: 100vh;
   width: 100vw;
   display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 #message {
-  justify-content: center;
+  height: 15%;
+  width: 60%;
+  justify-content: flex-start;
   align-items: center;
   display: flex;
+}
+
+#leftBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: baseline;
+  width: 100px;
+}
+
+#rightBox {
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  width: 75%;
+}
+
+#upvoteContainer {
+  display: flex;
+  flex-direction: row;
+  height: 30px;
+  justify-content: space-between;
+}
+
+#textContainer {
+  height: 90%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#upvote {
+  color: navy;
+}
+
+.profile {
+  border-radius: 50%;
 }

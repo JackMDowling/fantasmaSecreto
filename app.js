@@ -1,10 +1,7 @@
 /*TODO
-Finish Upvotes
 Style
 Add Reply
 Add timestamp
-
-BUG! The user posting != the user that ends up in the db, looks like maybe it's just not updating the user when it is randomized
 */
 
 $(document).ready(() => {
@@ -89,12 +86,15 @@ $(document).ready(() => {
   // Comment Post Section
   const $post = $("<div id=post></div>");
   $post.appendTo($app);
+
   const $currentUser = $(`<img class=profile src=${img} width=50 height=50>`);
   $currentUser.appendTo($post);
+
   const $input = $(
-    "<input type=text id=post_field placeholder='What Are Your Thoughts?' width='70%'></input>"
+    "<input type=text id=post_field placeholder='What Are Your Thoughts?''></input>"
   );
   $input.appendTo($post);
+
   const $comment = $(`<button onClick=postComment()>Comment</button>`);
   $comment.appendTo($post);
 
@@ -109,23 +109,36 @@ $(document).ready(() => {
     for (element of data) {
       let src = element.img;
       let id = element.id;
+
       const $message = $(`<div id=message></div>`);
       $message.appendTo($discussion);
+      const $leftBox = $("<div id=leftBox></div>");
+      $leftBox.appendTo($message);
+      const $rightBox = $("<div id=rightBox></div>");
+      $rightBox.appendTo($message);
+
+      // Left components
       const $user = $(`<div class=user>${element.username}</div>`);
-      $user.appendTo($message);
+      $user.appendTo($leftBox);
       const $userIMG = $(
         `<img class=profile src=${src} alt=load width=50 height=50>`
       );
-      $userIMG.appendTo($message);
+      $userIMG.appendTo($leftBox);
+
+      // Right components
+      const $textContainer = $("<div id=textContainer></div>");
+      $textContainer.appendTo($rightBox);
       const $text = $(`<div id=messageText>${element.text}</div>`);
-      $text.appendTo($message);
+      $text.appendTo($textContainer);
+      const $upvoteContainer = $("<div id=upvoteContainer></div>");
+      $upvoteContainer.appendTo($rightBox);
       const $upvote = $(
         `<div class=upvote id=${id} onClick=upVote()>∆ Upvote</div>`
       );
-      $upvote.appendTo($message);
-
+      $upvote.appendTo($upvoteContainer);
       const $upvoteCount = $(`<div class=upvoteCount>${element.upvotes}</div>`);
-      $upvoteCount.appendTo($message);
+      $upvoteCount.appendTo($upvoteContainer);
+
       const $reply = $(`<div class=reply></div>`);
       $reply.appendTo($post);
     }
