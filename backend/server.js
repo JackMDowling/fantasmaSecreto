@@ -26,7 +26,6 @@ app.get("/feed/", (req, res) => {
     "SELECT * FROM messages ORDER  BY id DESC LIMIT 5",
     (err, data) => {
       if (err) throw err;
-      res.setHeader("Access-Control-Allow-Origin", "*");
       res.send(data);
       res.end();
     }
@@ -34,7 +33,6 @@ app.get("/feed/", (req, res) => {
 });
 
 app.post("/submit/", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
   let { username, text, img } = req.body;
   db.dbConnection.query(
     "INSERT INTO messages (username, text, img) VALUES (?, ?, ?);",
@@ -49,8 +47,6 @@ app.put("/upvote/", (req, res) => {
   let id = Object.keys(req.body);
   id = Number(id[0]);
   console.log(id);
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "PUT");
   db.dbConnection.query(
     "UPDATE chat.messages SET upvotes = upvotes + 1 WHERE id = ?;",
     [id]

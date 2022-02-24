@@ -31,8 +31,8 @@ $(document).ready(() => {
     if (text.length === 0) {
       alert("Please Type a Message!");
     }
-    if (text.length > 141) {
-      alert("There's a 141 Character Limit");
+    if (text.length > 1000) {
+      alert("There's a 1000 Character Limit");
     }
     // Structure data object for post request
     let obj = {
@@ -56,7 +56,7 @@ $(document).ready(() => {
     username = users[index][0];
     img = users[index][1];
     $(".profile").attr("src", img);
-    updateFeed();
+    document.getElementById("post_field").value = null
   };
 
   upVote = function () {
@@ -74,7 +74,7 @@ $(document).ready(() => {
         console.log(err);
       },
     });
-    console.log("upvote submitted");
+    updateFeed();
   };
 
   // Declaring App and Title
